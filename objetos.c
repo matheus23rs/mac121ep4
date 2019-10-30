@@ -143,7 +143,10 @@ static char *nomeCategoria[MAX_CATEGORIAS] =
 void
 freeObjeto(CelObjeto *pObj)
 {
-    AVISO(objetos.c: Vixe! Ainda nao fiz a funcao freeObjeto.);
+    if((pObj->categoria >= 23 && pObj->categoria <= 25) || pObj->categoria == 30){
+      free(pObj->valor.pStr);
+    }
+    free(pObj);
 }
 
 /*-------------------------------------------------------------
@@ -158,7 +161,15 @@ freeObjeto(CelObjeto *pObj)
 void
 freeListaObjetos(CelObjeto *iniLista)
 {
-    AVISO(objetos.c: Vixe! Ainda nao fiz a funcao freeListaObjetos.);
+    CelObjeto *aux;
+    aux = iniLista->prox;
+    free(iniLista);
+    iniLista = aux;
+    while(iniLista != NULL){
+      aux = iniLista;
+      iniLista = iniLista->prox;
+      freeObjeto(aux);
+    }
 }
 
 /*-------------------------------------------------------------
@@ -182,7 +193,13 @@ freeListaObjetos(CelObjeto *iniLista)
 void
 mostreValor(CelObjeto *pValor)
 {
-    AVISO(objetos.c: Vixe! Ainda nao fiz a funcao mostreValor.);
+    int i;
+    if(pValor->categoria == 27 && (pValor->valor.vFloat == 0 || pValor->valor.vFloat == 1)){
+      i = (int)pValor->valor.vFloat;
+      printf("%s", boolean[i]);
+    }
+    else
+      printf("%f\n", pValor->valor.vFloat);
 }
 
 /*-------------------------------------------------------------
@@ -261,7 +278,25 @@ mostreValor(CelObjeto *pValor)
 void
 mostreObjeto(CelObjeto *pObj, int tipoLista)
 {
-    AVISO(objetos.c: Vixe! Ainda nao fiz a funcao mostreObjeto.);
+    if(tipoLista == ITENS){
+      printf("'%s'  (%s)\n", pObj->valor.pStr, nomeCategoria[pObj->categoria]);
+    }
+    else if(tipoLista == VALORES){
+      if(pObj->categoria == 29 || pObj->categoria == 28){
+        printf("%f  (%s)\n", pObj->valor.vFloat, nomeCategoria[pObj->categoria]);
+      }
+      else if(pObj->categoria <= 22){
+        printf("prec=%d  (%s)\n", pObj->valor.vInt, nomeCategoria[pObj->categoria]);
+      }
+    }
+    else if(tipoLista == POSFIXA){
+        if(pObj->categoria < 21)
+            printf("%s ", operador[pObj->categoria]);
+        else if(pObj->categoria == 28)
+            printf("%f ", pObj->valor.vFloat);
+        else if(pObj->categoria == 30)
+            printf("%s ", pObj->valor.pStr);
+    }
 }
 
 /*-------------------------------------------------------------
@@ -320,6 +355,33 @@ mostreObjeto(CelObjeto *pObj, int tipoLista)
  */ 
 void
 mostreListaObjetos (CelObjeto *iniLista, int tipoLista)
-{
-    AVISO(objetos.c: Vixe! Ainda nao fiz a funcao mostreListaObjetos.);
+{   
+    printf("===================================\n\n");
+    iniLista = iniLista->prox;
+    if(tipoLista == ITENS){
+      printf("Fila de itens\n");
+      printf("item  (categoria)\n");
+      printf(".....................\n");
+      while(iniLista != NULL){
+        mostreObjeto(iniLista,tipoLista);
+        iniLista = iniLista->prox;
+      }
+    }
+    else if(tipoLista == VALORES){
+      printf("Fila de valores\n");
+      printf("valor  (categoria)\n");
+      printf(".....................\n");
+      while(iniLista != NULL){
+        mostreObjeto(iniLista,tipoLista);
+        iniLista = iniLista->prox;
+      }
+    }
+    else if(tipoLista == POSFIXA){
+        printf("Expressao posfixa: ");
+        while(iniLista != NULL){
+            mostreObjeto(iniLista, tipoLista);
+            iniLista = iniLista ->prox;
+        }
+    }
+    printf("\n");
 }    

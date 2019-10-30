@@ -10,7 +10,7 @@
   SUA DISTRIBUIÇÃO. ESTOU CIENTE QUE OS CASOS DE PLÁGIO SÃO PUNIDOS COM 
   REPROVAÇÃO DIRETA NA DISCIPLINA.
 
-  Nome:
+  Nome:Matheus Ribeiro Silva
 
   eval.c
   Pitao II
@@ -48,6 +48,7 @@
                            a pilha de execucao */
 #include "st.h"         /* getValorST(), setValorST() */    
     
+#define EPS 0.0001
 
 /*------------------------------------------------------------*/
 /* Protipos de funcoes auxiliares */
@@ -163,8 +164,29 @@ static const int precedencia[MAX_OPERADORES] =
 
 void
 itensParaValores(CelObjeto *iniFilaItens)
-{
-    AVISO(eval.c: Vixe! Ainda nao fiz a funcao itensParaValores.);
+{ 
+  iniFilaItens = iniFilaItens->prox;
+  while(iniFilaItens != NULL){
+    if(iniFilaItens->categoria == 24){
+      iniFilaItens->valor.vFloat = atof(iniFilaItens->valor.pStr);
+      iniFilaItens->categoria = 28;
+      /*free(iniFilaItens->valor.pStr);*/
+    }
+    else if(iniFilaItens->categoria == 23){
+      iniFilaItens->valor.vFloat = atof(iniFilaItens->valor.pStr);
+      iniFilaItens->categoria = 27;
+      /*free(iniFilaItens->valor.pStr);*/
+    }
+    else if(iniFilaItens->categoria == 25){
+      iniFilaItens->valor.vFloat = atof(iniFilaItens->valor.pStr);
+      iniFilaItens->categoria = 29;
+      /*free(iniFilaItens->valor.pStr);*/
+    }
+    else if(iniFilaItens->categoria < 20){
+      iniFilaItens->valor.vInt = precedencia[iniFilaItens->categoria];
+    }
+    iniFilaItens = iniFilaItens->prox;
+  }
 }
 
 /*-------------------------------------------------------------
@@ -213,7 +235,205 @@ eval (CelObjeto *iniPosfixa, Bool mostrePilhaExecucao)
        do EP. Esse return devera ser removido depois que
        a funcao estiver pronta.
     */
-    AVISO(eval.c: Vixe! Ainda nao fiz a funcao eval.);    
-    return NULL; 
-}
+    /* O objetivo do return a seguir e' evitar que ocorra erro de
+       sintaxe durante a fase de desenvolvimento do EP. Esse return
+       devera' ser removido depois que a funcao estiver pronta.
+    */
+    CelObjeto *aux_cel, *topo;
+    Item *aux1, *aux2, numero;
+    int categoria;
+    iniPosfixa = iniPosfixa->prox;
+    topo stackInit();
+    while(iniPosfixa != NULL){
+      categoria = iniPosfixa->categoria;
+      switch(categoria){
+        case 0:
+          aux1 = stackpop();
+          aux2 = stackpop();
+          if(aux1->valor.vFloat == aux2->valor.vFloat){
+            aux1->valor.vFloat = TRUE;
+            stackPush(*aux1);
+          }
+          else{
+            aux1->valor.vFloat = FALSE;
+            stackPush(*aux1);
+          }
+        break;
 
+        case 1:
+          aux1 = stackpop();
+          aux2 = stackpop();
+          if(aux1->valor.vFloat != aux2->valor.vFloat){
+            aux1->valor.vFloat = TRUE;
+            stackPush(*aux1);
+          }
+          else{
+            aux1->valor.vFloat = FALSE;
+            stackPush(*aux1);
+          }
+        break;
+
+        case 2:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          if(aux1->valor.vFloat >= aux2->valor.vFloat){
+            aux1->valor.vFloat = TRUE;
+            stackPush(*aux1);
+          }
+          else{
+            aux1->valor.vFloat = FALSE;
+            stackPush(*aux1);
+          }
+          break;
+
+        case 3:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          if(aux1->valor.vFloat  <= aux2->valor.vFloat){
+            aux1->valor.vFloat = TRUE;
+            stackPush(*aux1);
+          }
+          else{
+            aux1->valor.vFloat = FALSE;
+            stackPush(*aux1);
+          }
+        break;
+
+        case 4:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          aux1->valor.vFloat = pow(aux1->valor.vFloat, aux2->valor.vFloat);
+          stackPush(*aux1);
+        break;
+
+        case 5:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          aux1->valor.vFloat = (int)aux1->valor.vFloat / (int)aux1->valor.vFloat;
+          stackPush(*aux1);
+        break;
+
+        case 6:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          if(aux1->valor.vFloat > aux2->valor.vFloat){
+            aux1->valor.vFloat = TRUE;
+            stackPush(*aux1);
+          }
+          else{
+            aux1->valor.vFloat = FALSE;
+            stackPush(*aux1);
+          }
+        break;
+
+        case 7:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          if(aux1->valor.vFloat < aux2->valor.vFloat){
+            aux1->valor.vFloat = TRUE;
+            stackPush(*aux1);
+          }
+          else{
+            aux1->valor.vFloat = FALSE;
+            stackPush(*aux1);
+          }
+        break;
+
+        case 8:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          aux1->valor.vFloat = aux1->valor.vFloat - ((int)aux1->valor.vFloat / (int)aux2->valor.vFloat) * aux2->valor.vFloat;
+          stackPush(*aux1);
+        break;
+
+        case 9:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          aux1->valor.vFloat = aux1->valor.vFloat * aux2->valor.vFloat;
+          stackPush(*aux1);
+        break;
+
+        case 10:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          aux1->valor.vFloat = aux1->valor.vFloat / aux2->valor.vFloat;
+          stackPush(*aux1);
+        break;
+
+        case 11:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          aux1->valor.vFloat = aux1->valor.vFloat + aux2->valor.vFloat;
+          stackPush(*aux1);
+        break;
+
+        case 12:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          aux1->valor.vFloat = aux1->valor.vFloat - aux2->valor.vFloat;
+          stackPush(*aux1);
+        break;
+
+        case 13:
+          aux1 = stackpop();
+          aux1->valor.vFloat = -aux1->valor.vFloat;
+          stackPush(*aux1);
+        break;
+
+        case 14:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          if(aux1->valor.vFloat && aux2->valor.vFloat)
+            stackPush(*aux2);
+          else{
+             aux1->valor.vFloat = FALSE;
+             stackPush(*aux1);
+          }
+        break;
+
+        case 15:
+          aux2 = stackpop();
+          aux1 = stackpop();
+          if(aux1->valor.vFloat || aux2->valor.vFloat)
+            stackPush(*aux1);
+          else{
+           aux1->valor.vFloat = FALSE;
+            stackPush(*aux1);
+          }
+        break;
+
+        case 16: /* not */
+          aux1 = stackpop();
+          if(aux1->valor.vFloat == 0){
+            aux1->valor.vFloat = TRUE;
+            stackPush(*aux1);
+          }
+          else{
+            aux1->valor.vFloat = FALSE;
+            stackPush(*aux1);
+          }
+        break;
+
+        default:
+          if(categoria == 30){
+            numero.valor.pStr = strcpy(numero.valor.pStr, iniPosfixa->valor.pStr);
+            numero.categoria = iniPosfixa->categoria;
+          }
+          else{
+            numero.valor.vFloat = iniPosfixa->valor.vFloat;
+            numero.categoria = iniPosfixa->categoria;
+          }
+          stackPush(numero);
+      }
+      aux_cel = iniPosfixa;
+      iniPosfixa = iniPosfixa->prox;
+      freeObjeto(aux_cel);
+      if(mostrePilhaExecucao){
+        stackPrint();
+      }
+    }
+    aux1 = stackTop();
+    aux_cel = mallocSafe(sizeof(*aux_cel));
+    aux_cel->valor.vFloat = aux1->valor.vFloat;
+    return(aux_cel);
+}

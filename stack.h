@@ -10,7 +10,7 @@
   SUA DISTRIBUIÇÃO. ESTOU CIENTE QUE OS CASOS DE PLÁGIO SÃO PUNIDOS COM 
   REPROVAÇÃO DIRETA NA DISCIPLINA.
 
-  Nome:
+  Nome:Matheus Ribeiro Silva
 
   stack.h
   Pitao II
@@ -33,7 +33,7 @@
  * stack.h 
  * INTERFACE: funcoes para manipular uma pilha 
  */
-
+#include "objetos.h"
 #ifndef _STACK_H
 #define _STACK_H
 /*
@@ -48,5 +48,27 @@
  * TAREFA EP4: copiar a interface feita para o EP3.
  *
  */
+
+typedef struct item Item;
+struct item
+{
+  Categoria categoria;
+  Valor valor;
+};
+
+
+void stackInit(void);
+
+int stackEmpty(CelObjeto);
+
+void stackPush(Item, CelObjeto);
+
+Item *stackpop(CelObjeto);
+
+Item *stackTop(CelObjeto );
+
+void stackFree(CelObjeto);
+
+void stackPrint(CelObjeto);
 
 #endif /* _STACK_H */

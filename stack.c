@@ -10,7 +10,7 @@
   SUA DISTRIBUIÇÃO. ESTOU CIENTE QUE OS CASOS DE PLÁGIO SÃO PUNIDOS COM 
   REPROVAÇÃO DIRETA NA DISCIPLINA.
 
-  Nome:
+  Nome:Matheus Ribeiro Silva
 
   stack.c
   Pitao II
@@ -29,6 +29,8 @@
 
 /* interface para o uso de uma pilha */
 #include "stack.h" 
+#include <stdlib.h>
+#include <string.h>
 
 /* 
  * 
@@ -48,4 +50,84 @@
  *     nomes de variaveis e nao apenas valores double.
  *
  */
+
+
+CelObjeto stackInit(void){
+   CelObjeto *topo;
+   topo = mallocSafe(sizeof(*topo));
+   topo->prox = NULL;
+   return(topo);
+}
+
+int stackEmpty(CelObjeto topo){
+   return(topo->prox == NULL);
+}
+
+void stackPush(Item a, CelObjeto topo){
+  CelObjeto *nova = mallocSafe(sizeof(*nova));
+  nova->valor.vFloat = a.valor.vFloat;
+  nova->valor.vInt = a.valor.vInt;
+  if(a.categoria == 30)
+    strcpy(nova->valor.pStr, a.valor.pStr);
+  nova->prox = topo->prox;
+  topo->prox = nova;
+}
+
+Item *stackpop(CelObjeto topo){
+   CelObjeto *p;
+   Item *conteudo;
+   p = topo->prox;
+   conteudo = mallocSafe(sizeof(Item));
+   if(!stackEmpty()){
+     conteudo->valor.vFloat = p->valor.vFloat;
+     conteudo->valor.vInt = p->valor.vInt;
+     if(p->categoria == 30)
+      strcpy(conteudo->valor.pStr, p->valor.pStr);
+     conteudo->categoria = p->categoria;
+     topo->prox = p->prox;
+     free(p);
+   }
+   else{
+     printf("AVISO: stackPop em stack.c: pilha vazia...\n");
+     printf("ERRO: eval em eval.c: abortando o calculo da expressao\n");
+     exit(1);
+    }
+   return(conteudo);
+}
+
+Item *stackTop(CelObjeto topo){
+  Item *conteudo;
+  conteudo = mallocSafe(sizeof(Item));
+  conteudo->valor.vFloat = topo->prox->valor.vFloat;
+  conteudo->valor.vInt = topo->prox->valor.vInt;
+  conteudo->categoria = topo->prox->categoria;
+  return(conteudo);
+}
+
+void stackFree(CelObjeto topo){
+  while (topo != NULL)
+  {
+    CelObjeto *p;
+    p = topo->prox;
+    topo = p->prox;
+    free(p);
+  }
+}
+
+void stackPrint(CelObjeto topo){
+  CelObjeto *p;
+  p = topo->prox;
+  printf("===================================\n");
+  printf("Pilha de execucao\n");
+  printf("Valor\n");
+  printf(".....................\n");
+  while(p != NULL){
+      if(p->categoria == 30)
+        printf("%s", p->valor.pStr);
+      else
+        printf("%f\n", p->valor.vFloat);
+      p = p->prox;
+  }
+  printf("\n");
+}
 

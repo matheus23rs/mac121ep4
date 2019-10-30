@@ -10,7 +10,7 @@
   SUA DISTRIBUIÇÃO. ESTOU CIENTE QUE OS CASOS DE PLÁGIO SÃO PUNIDOS COM 
   REPROVAÇÃO DIRETA NA DISCIPLINA.
 
-  Nome:
+  Nome:Matheus Ribeiro Silva
 
   st.c
   Pitao II
@@ -64,6 +64,8 @@ endVarST(char *nomeVar);
 void 
 initST()
 {
+    ini = mallocSafe(sizeof(*ini));
+    ini->proxVar = NULL;
     AVISO(st.c: Vixe! Ainda nao fiz a funcao iniST.);
 }
 
@@ -92,8 +94,16 @@ getValorST(char *nomeVar)
        do EP. Esse return devera ser removido depois que
        a funcao estiver pronta.
     */
-    AVISO(st.c: Vixe! Ainda nao fiz a funcao getValorST.);
-    return NULL;
+    CelObjeto *valor = NULL;
+    CelST *aux = NULL;
+    aux = endVarST(nomeVar);
+    if(aux != NULL){
+        valor = mallocSafe(sizeof(*valor));
+        valor->categoria = 28;
+        valor->val = aux->valorVar.vFloat;
+        valor->prox = NULL;
+    }
+    return (valor);
 }
 
 /*-------------------------------------------------------------
@@ -137,7 +147,17 @@ getValorST(char *nomeVar)
 void
 setValorST(char *nomeVar, CelObjeto *pValor)
 {
-    AVISO(st.c: Vixe! Ainda nao fiz a funcao setValorST.);
+    CelST *found = NULL, *aux;
+    found = endVarST(nomeVar);
+    if(found != NULL){
+        found->tipoVar = pValor->categoria;
+        found->valorVar.vFloat = pValor->val;
+        strcpy(found->nomeVar, nomeVar);
+    }
+    aux = ini;
+    while(aux->proxVar != NULL) aux = aux->proxVar;
+    aux->proxVar = found;
+    found->proxVar = NULL;
 }
 
 /*-------------------------------------------------------------
@@ -151,7 +171,16 @@ setValorST(char *nomeVar, CelObjeto *pValor)
 void 
 freeST()
 {
-    AVISO(st.c: Vixe! Ainda nao fiz a funcao freeST.);
+    CelST *aux;
+    aux = ini;
+    ini = ini->proxVar;
+    free(aux);
+    while(ini != NULL){
+        aux = ini;
+        ini = ini->proxVar;
+        free(aux->nomeVar);
+        free(aux);
+    }
 }
 
 /*-------------------------------------------------------------
@@ -176,7 +205,16 @@ freeST()
 void
 showST()
 {
-    AVISO(st.c: Vixe! Ainda nao fiz a funcao showST.);
+    CelST *aux;
+    aux = ini->proxVar;
+    printf("========================");
+    printf("Tabela de simbolos\n");
+    printf("'nome': valor\n");
+    printf(". . . . . . . . . . . . .\n");
+    while(aux != NULL){
+        printf("'%s': %f\n", aux->nomeVar, aux->valorVar.vFloat);
+        aux = aux->proxVar;
+    }
 }
 
 /*-------------------------------------------------------------
@@ -198,6 +236,11 @@ endVarST(char *nomeVar)
        do EP. Esse return devera ser removido depois que
        a funcao estiver pronta.
     */
-    AVISO(st.c: Vixe! Ainda nao fiz a funcao endVarST.);
-    return NULL; 
+    CelST *celVar = ini->proxVar;
+    int found = 0;
+    while(celVar != NULL &&  found == 0){
+        if(strcmp(nomeVar, celVar->valorVar.pStr) == 0) found = 1;
+        celVar = celVar->proxVar;
+    }
+    return (celVar); 
 }
