@@ -57,18 +57,18 @@ struct item
 };
 
 
-void stackInit(void);
+CelObjeto *stackInit(void);
 
-int stackEmpty(CelObjeto);
+int stackEmpty(CelObjeto*);
 
-void stackPush(Item, CelObjeto);
+void stackPush(Item, CelObjeto*);
 
-Item *stackpop(CelObjeto);
+Item *stackpop(CelObjeto*);
 
-Item *stackTop(CelObjeto );
+Item *stackTop(CelObjeto*);
 
-void stackFree(CelObjeto);
+void stackFree(CelObjeto*);
 
-void stackPrint(CelObjeto);
+void stackPrint(CelObjeto*);
 
 #endif /* _STACK_H */

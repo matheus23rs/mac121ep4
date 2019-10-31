@@ -10,7 +10,7 @@
   SUA DISTRIBUIÇÃO. ESTOU CIENTE QUE OS CASOS DE PLÁGIO SÃO PUNIDOS COM 
   REPROVAÇÃO DIRETA NA DISCIPLINA.
 
-  Nome:
+  Nome:Matheus Ribeiro Silva
 
   main.c
   Pitao II

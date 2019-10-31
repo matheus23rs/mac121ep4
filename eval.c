@@ -243,174 +243,174 @@ eval (CelObjeto *iniPosfixa, Bool mostrePilhaExecucao)
     Item *aux1, *aux2, numero;
     int categoria;
     iniPosfixa = iniPosfixa->prox;
-    topo stackInit();
+    topo = stackInit();
     while(iniPosfixa != NULL){
       categoria = iniPosfixa->categoria;
       switch(categoria){
         case 0:
-          aux1 = stackpop();
-          aux2 = stackpop();
+          aux1 = stackpop(topo);
+          aux2 = stackpop(topo);
           if(aux1->valor.vFloat == aux2->valor.vFloat){
             aux1->valor.vFloat = TRUE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
           else{
             aux1->valor.vFloat = FALSE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
         break;
 
         case 1:
-          aux1 = stackpop();
-          aux2 = stackpop();
+          aux1 = stackpop(topo);
+          aux2 = stackpop(topo);
           if(aux1->valor.vFloat != aux2->valor.vFloat){
             aux1->valor.vFloat = TRUE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
           else{
             aux1->valor.vFloat = FALSE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
         break;
 
         case 2:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           if(aux1->valor.vFloat >= aux2->valor.vFloat){
             aux1->valor.vFloat = TRUE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
           else{
             aux1->valor.vFloat = FALSE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
           break;
 
         case 3:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           if(aux1->valor.vFloat  <= aux2->valor.vFloat){
             aux1->valor.vFloat = TRUE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
           else{
             aux1->valor.vFloat = FALSE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
         break;
 
         case 4:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           aux1->valor.vFloat = pow(aux1->valor.vFloat, aux2->valor.vFloat);
-          stackPush(*aux1);
+          stackPush(*aux1, topo);
         break;
 
         case 5:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           aux1->valor.vFloat = (int)aux1->valor.vFloat / (int)aux1->valor.vFloat;
-          stackPush(*aux1);
+          stackPush(*aux1, topo);
         break;
 
         case 6:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           if(aux1->valor.vFloat > aux2->valor.vFloat){
             aux1->valor.vFloat = TRUE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
           else{
             aux1->valor.vFloat = FALSE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
         break;
 
         case 7:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           if(aux1->valor.vFloat < aux2->valor.vFloat){
             aux1->valor.vFloat = TRUE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
           else{
             aux1->valor.vFloat = FALSE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
         break;
 
         case 8:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           aux1->valor.vFloat = aux1->valor.vFloat - ((int)aux1->valor.vFloat / (int)aux2->valor.vFloat) * aux2->valor.vFloat;
-          stackPush(*aux1);
+          stackPush(*aux1, topo);
         break;
 
         case 9:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           aux1->valor.vFloat = aux1->valor.vFloat * aux2->valor.vFloat;
-          stackPush(*aux1);
+          stackPush(*aux1, topo);
         break;
 
         case 10:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           aux1->valor.vFloat = aux1->valor.vFloat / aux2->valor.vFloat;
-          stackPush(*aux1);
+          stackPush(*aux1, topo);
         break;
 
         case 11:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           aux1->valor.vFloat = aux1->valor.vFloat + aux2->valor.vFloat;
-          stackPush(*aux1);
+          stackPush(*aux1, topo);
         break;
 
         case 12:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           aux1->valor.vFloat = aux1->valor.vFloat - aux2->valor.vFloat;
-          stackPush(*aux1);
+          stackPush(*aux1, topo);
         break;
 
         case 13:
-          aux1 = stackpop();
+          aux1 = stackpop(topo);
           aux1->valor.vFloat = -aux1->valor.vFloat;
-          stackPush(*aux1);
+          stackPush(*aux1, topo);
         break;
 
         case 14:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           if(aux1->valor.vFloat && aux2->valor.vFloat)
-            stackPush(*aux2);
+            stackPush(*aux2, topo);
           else{
              aux1->valor.vFloat = FALSE;
-             stackPush(*aux1);
+             stackPush(*aux1, topo);
           }
         break;
 
         case 15:
-          aux2 = stackpop();
-          aux1 = stackpop();
+          aux2 = stackpop(topo);
+          aux1 = stackpop(topo);
           if(aux1->valor.vFloat || aux2->valor.vFloat)
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           else{
            aux1->valor.vFloat = FALSE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
         break;
 
         case 16: /* not */
-          aux1 = stackpop();
+          aux1 = stackpop(topo);
           if(aux1->valor.vFloat == 0){
             aux1->valor.vFloat = TRUE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
           else{
             aux1->valor.vFloat = FALSE;
-            stackPush(*aux1);
+            stackPush(*aux1, topo);
           }
         break;
 
@@ -423,16 +423,16 @@ eval (CelObjeto *iniPosfixa, Bool mostrePilhaExecucao)
             numero.valor.vFloat = iniPosfixa->valor.vFloat;
             numero.categoria = iniPosfixa->categoria;
           }
-          stackPush(numero);
+          stackPush(numero, topo);
       }
       aux_cel = iniPosfixa;
       iniPosfixa = iniPosfixa->prox;
       freeObjeto(aux_cel);
       if(mostrePilhaExecucao){
-        stackPrint();
+        stackPrint(topo);
       }
     }
-    aux1 = stackTop();
+    aux1 = stackTop(topo);
     aux_cel = mallocSafe(sizeof(*aux_cel));
     aux_cel->valor.vFloat = aux1->valor.vFloat;
     return(aux_cel);

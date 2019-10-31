@@ -52,18 +52,18 @@
  */
 
 
-CelObjeto stackInit(void){
+CelObjeto *stackInit(void){
    CelObjeto *topo;
    topo = mallocSafe(sizeof(*topo));
    topo->prox = NULL;
    return(topo);
 }
 
-int stackEmpty(CelObjeto topo){
+int stackEmpty(CelObjeto *topo){
    return(topo->prox == NULL);
 }
 
-void stackPush(Item a, CelObjeto topo){
+void stackPush(Item a, CelObjeto *topo){
   CelObjeto *nova = mallocSafe(sizeof(*nova));
   nova->valor.vFloat = a.valor.vFloat;
   nova->valor.vInt = a.valor.vInt;
@@ -73,12 +73,12 @@ void stackPush(Item a, CelObjeto topo){
   topo->prox = nova;
 }
 
-Item *stackpop(CelObjeto topo){
+Item *stackpop(CelObjeto *topo){
    CelObjeto *p;
    Item *conteudo;
    p = topo->prox;
    conteudo = mallocSafe(sizeof(Item));
-   if(!stackEmpty()){
+   if(!stackEmpty(topo)){
      conteudo->valor.vFloat = p->valor.vFloat;
      conteudo->valor.vInt = p->valor.vInt;
      if(p->categoria == 30)
@@ -95,8 +95,13 @@ Item *stackpop(CelObjeto topo){
    return(conteudo);
 }
 
-Item *stackTop(CelObjeto topo){
+Item *stackTop(CelObjeto *topo){
   Item *conteudo;
+  if(stackEmpty(topo) == 1){
+    printf("AVISO: stackPop em stack.c: pilha vazia...\n");
+    printf("ERRO: eval em eval.c: abortando o calculo da expressao\n");
+    exit(1);
+  }
   conteudo = mallocSafe(sizeof(Item));
   conteudo->valor.vFloat = topo->prox->valor.vFloat;
   conteudo->valor.vInt = topo->prox->valor.vInt;
@@ -104,19 +109,24 @@ Item *stackTop(CelObjeto topo){
   return(conteudo);
 }
 
-void stackFree(CelObjeto topo){
+void stackFree(CelObjeto *topo){
   while (topo != NULL)
   {
     CelObjeto *p;
     p = topo->prox;
     topo = p->prox;
-    free(p);
+    freeObjeto(p);
   }
 }
 
-void stackPrint(CelObjeto topo){
+void stackPrint(CelObjeto *topo){
   CelObjeto *p;
   p = topo->prox;
+  if(stackEmpty(topo) == 1){
+    printf("AVISO: stackPop em stack.c: pilha vazia...\n");
+    printf("ERRO: eval em eval.c: abortando o calculo da expressao\n");
+    exit(1);
+  }
   printf("===================================\n");
   printf("Pilha de execucao\n");
   printf("Valor\n");

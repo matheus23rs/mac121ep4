@@ -10,7 +10,7 @@
   SUA DISTRIBUIÇÃO. ESTOU CIENTE QUE OS CASOS DE PLÁGIO SÃO PUNIDOS COM 
   REPROVAÇÃO DIRETA NA DISCIPLINA.
 
-  Nome:
+  Nome:Matheus Ribeiro Silva
 
   posfixa.c
   Pitao II
@@ -41,6 +41,23 @@
 #include "objetos.h" /* tipo CelObjeto, freeObjeto(), freeListaObjetos() */
 #include "stack.h"   /* stackInit(), stackFree(), stackPop() 
                         stackPush(), stackTop() */
+#include <string.h>
+
+/* Funcao Auxiliar para a fila */
+
+void queuePut(CelObjeto *fim, Item *x){
+  CelObjeto *aux;
+  aux = mallocSafe(sizeof(*aux));
+  aux->valor.vInt = x->valor.vInt;
+  aux->valor.vFloat = x->valor.vInt;
+  if(x->categoria == 30){
+    strcpy(aux->valor.pStr, x->valor.pStr);
+  }
+  aux->categoria = x->categoria;
+  fim->prox = aux;
+  fim = aux;
+  fim->prox = NULL;
+}
 
 /*-------------------------------------------------------------
  *  infixaParaPosfixa
@@ -62,6 +79,25 @@ infixaParaPosfixa(CelObjeto *iniInfixa)
        do EP. Esse return devera ser removido depois que
        a funcao estiver pronta.
     */
+    CelObjeto *topoOpe, *iniPos, *fimPos, *auxOpe;  /* topoOpe = topo da pilha de operadores */
+    Item *aux;                             /* iniPos  = inicio da fila posfixa     */
+    int categoria;
+    topoOpe = stackInit();
+    iniPos  = stackInit(); 
+    fimPos = iniPos;
+    iniInfixa = iniInfixa->prox;
+    while(iniInfixa != NULL){
+      categoria = iniInfixa->categoria;
+      aux = stackTop(topoOpe);  
+      switch(categoria){
+        case OPER_IGUAL:
+        case OPER_DIFERENTE:
+          while(!stackEmpty(topoOpe) && aux->valor.vInt <= 4){
+            aux = stackpop(topoOpe);
+
+          }
+      }
+    }
     AVISO(posfixa.c: Vixe! Ainda nao fiz a funcao infixaParaPosfixa.);
-    return NULL; 
+    return (iniPos); 
 }
