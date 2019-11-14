@@ -1,13 +1,13 @@
 /*
   \__\__\__\__\__\__\__\__\__\__\__\__\__\__\__\__\__\__\__\__\__\__\__
 
-  AO PREENCHER ESSE CABEÇALHO COM O MEU NOME E O MEU NÚMERO USP, 
-  DECLARO QUE SOU O ÚNICO AUTOR E RESPONSÁVEL POR ESSE PROGRAMA. 
-  TODAS AS PARTES ORIGINAIS DESSE EXERCÍCIO PROGRAMA (EP) FORAM 
+  AO PREENCHER ESSE CABEÇALHO COM O MEU NOME E O MEU NÚMERO USP,
+  DECLARO QUE SOU O ÚNICO AUTOR E RESPONSÁVEL POR ESSE PROGRAMA.
+  TODAS AS PARTES ORIGINAIS DESSE EXERCÍCIO PROGRAMA (EP) FORAM
   DESENVOLVIDAS E IMPLEMENTADAS POR MIM SEGUINDO AS INSTRUÇÕES DESSE EP
   E QUE PORTANTO NÃO CONSTITUEM PLÁGIO. DECLARO TAMBÉM QUE SOU RESPONSÁVEL
   POR TODAS AS CÓPIAS DESSE PROGRAMA E QUE EU NÃO DISTRIBUI OU FACILITEI A
-  SUA DISTRIBUIÇÃO. ESTOU CIENTE QUE OS CASOS DE PLÁGIO SÃO PUNIDOS COM 
+  SUA DISTRIBUIÇÃO. ESTOU CIENTE QUE OS CASOS DE PLÁGIO SÃO PUNIDOS COM
   REPROVAÇÃO DIRETA NA DISCIPLINA.
 
   Nome:Matheus Ribeiro Silva
@@ -20,7 +20,7 @@
   para que o seu programa não seja considerada plágio.
 
   Exemplo:
-  - função mallocc retirada de: 
+  - função mallocc retirada de:
 
   http://www.ime.usp.br/~pf/algoritmos/aulas/aloca.html
 
@@ -30,8 +30,8 @@
 /*
  * MAC0121 Algoritmos e Estruturas de Dados I
  *
- * stack.h 
- * INTERFACE: funcoes para manipular uma pilha 
+ * stack.h
+ * INTERFACE: funcoes para manipular uma pilha
  */
 #include "objetos.h"
 #ifndef _STACK_H
@@ -39,9 +39,9 @@
 /*
  * TAREFA EP3
  *
- * Aqui voce deve colocar a interface para acesso a sua   
+ * Aqui voce deve colocar a interface para acesso a sua
  * implementacao de uma pilha (stack.c).
- * 
+ *
  * Se julgar conveniente, defina o arquivo item.h o tipo Item
  * como nas notas de aula.
  *
@@ -59,16 +59,16 @@ struct item
 
 CelObjeto *stackInit(void);
 
-int stackEmpty(CelObjeto*);
+int stackEmpty(void);
 
-void stackPush(Item, CelObjeto*);
+void stackPush(Item);
 
-Item *stackpop(CelObjeto*);
+Item *stackpop(void);
 
-Item *stackTop(CelObjeto*);
+Item *stackTop(void);
 
-void stackFree(CelObjeto*);
+void stackFree(void);
 
-void stackPrint(CelObjeto*);
+void stackPrint(void);
 
 #endif /* _STACK_H */
